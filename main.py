@@ -1,16 +1,12 @@
-# This is a sample Python script.
+import requests
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import apimoex
+import pandas as pd
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+with requests.Session() as session:
+    data = apimoex.get_board_history(session, 'SNGSP')
+    df = pd.DataFrame(data)
+    df.set_index('TRADEDATE', inplace=True)
+    print(df.head(), '\n')
+    print(df.tail(), '\n')
+    df.info()
